@@ -5,13 +5,13 @@
 using namespace std;
 
 string stringTranes(string, const int);
-string caser(string, int);
+string caser(string, string);
 string vernam(string, string);
-string rail_fence(string, int);
+string rail_fence(string, string);
 string row(string, string);
 string playfair(string, string);
 
-int main()
+int main(int argc, char* argv[])
 {
 	string select;
 	string str_key;
@@ -19,36 +19,32 @@ int main()
 	string cipherTrxt;
 	int    int_key;
 
-	cin >> select;
+	select = argv[1];
+	str_key = argv[2];
+	plainText = argv[3];
 
 	select = stringTranes(select, 1);
 
 
 	if (select == "caeser")
 	{
-		cin >> int_key >> plainText;
-		cout << caser(plainText, int_key);
-
+		cout << caser(plainText, str_key);
 	}
 	else if (select == "playfair")
 	{
-		cin >> str_key >> plainText;
 		cout << playfair(plainText, str_key);
 	}
 	else if (select == "vernam")
 	{
-		cin >> str_key >> plainText;
 		cout << vernam(plainText, str_key);
 	}
 	else if (select == "row")
 	{
-		cin >> str_key >> plainText;
 		cout << row(plainText, str_key);
 	}
 	else if (select == "rail_fence")
 	{
-		cin >> int_key >> plainText;
-		cout << rail_fence(plainText, int_key);
+		cout << rail_fence(plainText, str_key);
 	}
 }
 
@@ -139,9 +135,7 @@ string playfair(string plainText, string key)
 		{
 			cipher[i][j] = newKey[counter];
 			counter++;
-			cout << cipher[i][j] << " ";
 		}
-		cout << endl;
 	}
 
 	for (int i = 0; i < plainText.length(); i += 2)
@@ -164,8 +158,6 @@ string playfair(string plainText, string key)
 				}
 			}
 		}
-		cout << x1 << " " << y1 << endl;
-		cout << x2 << " " << y2 << endl;
 		if (x1 == x2)
 		{
 			if (y1 == 4)y1 = -1;
@@ -185,23 +177,23 @@ string playfair(string plainText, string key)
 			tText += cipher[x2][y1];
 		}
 
-		cout << x1 << " " << y1 << endl;
-		cout << x2 << " " << y2 << endl;
 	}
 
-	return tText;
+	return stringTranes(tText, 0);
 }
 
 
-string caser(string plainText, int key)
+string caser(string plainText, string str_key)
 {
+	int key = 0;
+	key = stoi(str_key, 0);
 	while (key >= 26)
 	{
 		key -= 26;
 	}
 	for (int i = 0; i < plainText.length(); i++)
 	{
-		if (plainText[i] >= ('z' - key))
+		if (plainText[i] > ('z' - key))
 		{
 			plainText[i] -= 26;
 		}
@@ -232,8 +224,9 @@ string vernam(string plainText, string key)
 	return stringTranes(plainText, 0);
 }
 
-string rail_fence(string plainText, int key)
+string rail_fence(string plainText, string str_key)
 {
+	int key = stoi(str_key, 0);
 	vector<string> arys;
 	int flag = 0;
 	int counter = 0;
