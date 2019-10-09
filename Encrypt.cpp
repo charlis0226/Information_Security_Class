@@ -209,7 +209,13 @@ string caser(string plainText, string str_key)
 
 string vernam(string plainText, string key)
 {
-	if (plainText.length() != key.length())return plainText;
+	int counter = 0;
+	while (key.length() < plainText.length())
+	{
+		key += key[counter];
+		counter++;
+		if (counter == key.length() - 1)counter = 0;
+	}
 	for (int i = 0; i < plainText.length(); i++)
 	{
 		int a, b, c;
