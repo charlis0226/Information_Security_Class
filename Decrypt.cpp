@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include<string>
 #include<vector>
 #include<math.h>
@@ -12,8 +12,8 @@ string Decrypt(string Cipher, string Key, string CipherText)
 		if (stoi(Key) > 25) Key = to_string(stoi(Key) % 26);
 		for (int i = 0; i < CipherText.size(); i++)
 		{
-			temp = CipherText[i] + 32 + stoi(Key);
-			if (temp > 122) temp -= 26;
+			temp = CipherText[i] + 32 - stoi(Key);
+			if (temp < 97) temp += 26;
 			CipherText[i] = temp;
 		}
 		Plaintext = CipherText;
@@ -22,8 +22,8 @@ string Decrypt(string Cipher, string Key, string CipherText)
 	{
 		vector<string> temp;
 		vector<string> temp1;
-		int x = CipherText.size() / Key.size();//¤@¦¸¦Ü¤Ö¨úx­Ó
-		int y = CipherText.size() % Key.size(); //row¨S¶ñº¡¦h¥X¨Óªº¤å¦r­Ó¼Æ
+		int x = CipherText.size() / Key.size();//ä¸€æ¬¡è‡³å°‘å–xå€‹
+		int y = CipherText.size() % Key.size(); //rowæ²’å¡«æ»¿å¤šå‡ºä¾†çš„æ–‡å­—å€‹æ•¸
 		int column = Key.size();
 		int index = 0;
 		string mKey="";
@@ -86,15 +86,17 @@ string Decrypt(string Cipher, string Key, string CipherText)
 	}
 	if (Cipher == "vernam")
 	{
+		string temp;
 		for (int i = 0; i < CipherText.size(); i++)
 		{
 			char a, b;
 			if (CipherText[i] >= 65) a = CipherText[i]-65; else a = CipherText[i];
 			if (Key[i] >= 65) b = Key[i]-65; else b = Key[i];
 			char x = (a) ^ (b);
-			if (x <= 25) Plaintext += (x + 65);
-			else Plaintext += x;
-			Key += Plaintext[i];
+			if (x <= 25) temp += (x + 65);
+			else temp += x;
+			Key += temp[i];
+			Plaintext += (temp[i] + 32);
 		}
 	}
 	if (Cipher == "playfair")
@@ -113,7 +115,7 @@ string Decrypt(string Cipher, string Key, string CipherText)
 		string matrix=newKey;
 		for (char i = 65; i <= 90; i += 1)
 		{
-			if (Engtable[8] == 1 && Engtable[9] == 1 && Engtable[16] == 0 && i == 81)//i j¦P®É
+			if (Engtable[8] == 1 && Engtable[9] == 1 && Engtable[16] == 0 && i == 81)//i jåŒæ™‚
 				goto tag;
 			else if (Engtable[8] == 1 && Engtable[9] == 0 && i == 74)
 				goto tag;
@@ -151,7 +153,7 @@ string Decrypt(string Cipher, string Key, string CipherText)
 						break;
 					}
 				}
-			if (abs(index[0] - index[1]) % 5 == 0) //¦P¦æ
+			if (abs(index[0] - index[1]) % 5 == 0) //åŒè¡Œ
 			{
 				for (int j = 0; j < 2; j++)
 				{
@@ -161,7 +163,7 @@ string Decrypt(string Cipher, string Key, string CipherText)
 						Plaintext += matrix[index[j] -5];
 				}
 			}
-			else if ((abs(index[0] - index[1]) <= 4) && ((index[0]/5)==(index[1]/5)))//¦P¦C
+			else if ((abs(index[0] - index[1]) <= 4) && ((index[0]/5)==(index[1]/5)))//åŒåˆ—
 			{
 				for (int j = 0; j < 2; j++)
 				{
@@ -171,7 +173,7 @@ string Decrypt(string Cipher, string Key, string CipherText)
 						Plaintext += matrix[index[j] - 1];
 				}
 			}
-			else if (abs(index[0] - index[1]) % 5 != 0 && ((index[0] / 5) != (index[1] / 5)))//¤£¦P¦æ¤£¦P¦C
+			else if (abs(index[0] - index[1]) % 5 != 0 && ((index[0] / 5) != (index[1] / 5)))//ä¸åŒè¡Œä¸åŒåˆ—
 			{
 				int x0, x1,temp;
 				x0 = index[0] % 5;
@@ -193,9 +195,9 @@ string Decrypt(string Cipher, string Key, string CipherText)
 int main(int argc, char *argv[])
 {
 	
-	string a, b, c;
-	cin >> a >> b >> c;
-	//cout << Decrypt(argv[1], argv[2], argv[3]);
-	cout << Decrypt(a, b, c);
-	system("PAUSE");
+	//string a, b, c;
+	//cin >> a >> b >> c;
+	cout << Decrypt(argv[1], argv[2], argv[3]);
+	//cout << Decrypt(a, b, c);
+	//system("PAUSE");
 }
