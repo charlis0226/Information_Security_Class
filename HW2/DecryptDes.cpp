@@ -184,7 +184,7 @@ string Decrypt(string key, string CipherText)
 		subkey_1[i] = subkey[15 - i] ;
 	CipherText = HextoBit(CipherText);
 	for (int i = 0; i < 64; i++)
-		ciphertextbyIP += CipherText[IP[i] - 1]; //IP¸m´«
+		ciphertextbyIP += CipherText[IP[i] - 1]; //IPç½®æ›
 	L[0] = ciphertextbyIP.substr(0,32);
 	R[0] = ciphertextbyIP.substr(32, 32);
 	for (int i = 1; i <= 16; i++)
@@ -193,15 +193,15 @@ string Decrypt(string key, string CipherText)
 		L[i] = R[i - 1];
 		for (int j = 0; j < 48; j++)
 			E_R += R[i-1][E[j] - 1];
-		/*­Ë±ÔKeyÅÜ¦¨¸Ñ±K ¥¿±`¶¶§Ç¬O¥[±K*/
+		/*å€’æ•˜Keyè®Šæˆè§£å¯† æ­£å¸¸é †åºæ˜¯åŠ å¯†*/
 		temp = xor (E_R, subkey_1[i - 1]);
 		//temp = xor (E_R, subkey[i - 1]); 
 		//sbox
 		for (int j = 0; j < 8; j++)
 		{
 			string t,t2;
-			t = temp.substr(j * 6, 6);//§ä¥X­n¶iSboxªº¤»¦ì
-			//¶iSbox¨ÃÂàbinary
+			t = temp.substr(j * 6, 6);//æ‰¾å‡ºè¦é€²Sboxçš„å…­ä½
+			//é€²Sboxä¸¦è½‰binary
 			t = bin(sBox[j][stoi(t.substr(5, 1)) + (stoi(t.substr(0, 1)) * 2)][stoi(t.substr(4, 1)) + (stoi(t.substr(3, 1)) * 2) + (stoi(t.substr(2, 1)) * 4) + (stoi(t.substr(1, 1)) * 8)], "");
 			t2 = t;
 			for (int z = 0; z < (4 - t.size()); z++)
@@ -215,7 +215,7 @@ string Decrypt(string key, string CipherText)
 		R[i] = xor (L[i - 1], temp);
 	}
 	for (int i = 0; i < 64; i++)
-		temp += (R[16]+L[16])[IP_1[i] - 1]; //IP-1¸m´«
+		temp += (R[16]+L[16])[IP_1[i] - 1]; //IP-1ç½®æ›
 	delete[] subkey;
 	return "0x"+BittoHex_lower(temp);
 }
